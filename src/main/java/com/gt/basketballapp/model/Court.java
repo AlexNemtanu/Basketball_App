@@ -23,10 +23,10 @@ public class Court {
     protected Point2D.Double coordinates;
 
     @Enumerated(EnumType.STRING)
-    protected RenovationStatus renovation_status;
+    protected RenovationStatus renovationStatus;
 
     @Enumerated(EnumType.STRING)
-    protected CourtType court_type;
+    protected CourtType courtType;
 
     protected enum RenovationStatus{
         RENOVATED,
