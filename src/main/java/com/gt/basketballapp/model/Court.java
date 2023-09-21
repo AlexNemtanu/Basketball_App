@@ -17,25 +17,14 @@ public class Court {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    protected Long id;
+    private Long id;
 
-    protected String name;
-    protected Point2D.Double coordinates;
-
+    private String name;
+    private Point2D.Double coordinates;
     @Enumerated(EnumType.STRING)
-    protected RenovationStatus renovationStatus;
-
+    private RenovationStatus renovationStatus;
     @Enumerated(EnumType.STRING)
-    protected CourtType courtType;
+    private CourtType courtType;
 
-    protected enum RenovationStatus{
-        RENOVATED,
-        UNDER_RENOVATION,
-        NOT_REVOVATED;
-    }
-    protected enum CourtType{
-        INDOOR,
-        OUTDOOR;
-    }
 }
 
