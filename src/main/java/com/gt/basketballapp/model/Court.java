@@ -1,6 +1,6 @@
 package com.gt.basketballapp.model;
 
-import java.awt.geom.Point2D;
+import org.springframework.data.geo.Point;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -20,7 +20,7 @@ public class Court {
     private Long id;
 
     private String name;
-    private Point2D.Double coordinates;
+    private Point coordinates;
     @Enumerated(EnumType.STRING)
     private RenovationStatus renovationStatus;
     @Enumerated(EnumType.STRING)
