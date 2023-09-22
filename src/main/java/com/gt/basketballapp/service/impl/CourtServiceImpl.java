@@ -13,14 +13,11 @@ import java.util.List;
 @Service
 public class CourtServiceImpl implements CourtService {
 
-    @Autowired
-    private CourtRepository courtRepository;
+    private final CourtRepository courtRepository;
 
     public CourtServiceImpl(CourtRepository courtRepository) {
         this.courtRepository = courtRepository;
     }
-
-
 
     @Override
     public Court findByName(String name) {
