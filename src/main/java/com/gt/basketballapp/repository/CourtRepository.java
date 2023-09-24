@@ -24,4 +24,5 @@ public interface CourtRepository extends JpaRepository<Court, Long> {
 
     long countByCourtType(CourtType courtType);
 
+    int queryForObject(String query, Class<Integer> integerClass);
 }
