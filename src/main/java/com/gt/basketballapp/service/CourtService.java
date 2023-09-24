@@ -3,10 +3,11 @@ package com.gt.basketballapp.service;
 import com.gt.basketballapp.model.CourtType;
 import com.gt.basketballapp.model.RenovationStatus;
 import com.gt.basketballapp.model.dto.CourtDto;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
 
+@Service
 public interface CourtService {
 
     CourtDto findByName(String name);
