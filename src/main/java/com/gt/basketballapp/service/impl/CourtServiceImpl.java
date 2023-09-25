@@ -7,12 +7,9 @@ import com.gt.basketballapp.model.RenovationStatus;
 import com.gt.basketballapp.model.dto.CourtDto;
 import com.gt.basketballapp.repository.CourtRepository;
 import com.gt.basketballapp.service.CourtService;
-import org.springframework.data.crossstore.ChangeSetPersister;
-import org.springframework.stereotype.Service;
 
 import java.util.List;
 
-@Service
 public class CourtServiceImpl implements CourtService {
 
     private final CourtMapper courtMapper;
@@ -23,6 +20,7 @@ public class CourtServiceImpl implements CourtService {
     }
 
     public CourtDto findById(Long id){
+
         Court court = courtRepository.findById(id).orElseThrow(RuntimeException::new);
         return courtMapper.toDto(court);
     }
