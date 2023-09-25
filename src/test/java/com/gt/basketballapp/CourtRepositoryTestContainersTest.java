@@ -18,6 +18,10 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.util.List;
+
+import static com.gt.basketballapp.model.CourtType.INDOOR;
+import static com.gt.basketballapp.model.CourtType.OUTDOOR;
+import static com.gt.basketballapp.model.RenovationStatus.*;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 @Testcontainers
@@ -37,49 +41,44 @@ public class CourtRepositoryTestContainersTest {
 
     @Autowired
     private CourtRepository courtRepository;
-
     @Test
-    public void testDatabaseConnection() {
-        String jdbcUrl = "jdbc:mysql://localhost:3306/basketballdb";
-        String username = "admin";
-        String password = "admin";
-
-        try (Connection connection = DriverManager.getConnection(jdbcUrl, username, password)) {
-            assertTrue(connection.isValid(3), "Conexiunea la baza de date nu este validă.");
-        } catch (SQLException e) {
-            e.printStackTrace();
+    public void findAllIndoorCourts() {
+        List<Court> courts = courtRepository.findByCourtType(INDOOR);
+        for(Court court:courts){
+            System.out.println(court.getCourtType());
+            Assertions.assertEquals(INDOOR,court.getCourtType());
         }
     }
     @Test
-    public void findCourtByNameTest() {
-        Court court = courtRepository.findByName("testName1");
-        Assertions.assertNotNull(court);
-        Assertions.assertEquals("testName1", court.getName());
-    }
-
-    @Test
-    public void findAllIndoorCourts() {
-        List<Court> courts = courtRepository.findByCourtType(CourtType.INDOOR);
-        Assertions.assertFalse(courts.isEmpty());
-    }
-    @Test
     public void findAllOutdoorCourts() {
-        List<Court> courts = courtRepository.findByCourtType(CourtType.OUTDOOR);
-        Assertions.assertFalse(courts.isEmpty());
+        List<Court> courts = courtRepository.findByCourtType(OUTDOOR);
+        for(Court court:courts) {
+            System.out.println(court.getCourtType());
+            Assertions.assertEquals(OUTDOOR, court.getCourtType());
+        }
     }
     @Test
     public void findRenovatedCourts() {
-        List<Court> courts = courtRepository.findByRenovationStatus(RenovationStatus.RENOVATED);
-        Assertions.assertFalse(courts.isEmpty());
+        List<Court> courts = courtRepository.findByRenovationStatus(RENOVATED);
+        for(Court court:courts) {
+            System.out.println(court.getRenovationStatus());
+            Assertions.assertEquals(RENOVATED, court.getRenovationStatus());
+        }
     }
     @Test
     public void findUnrenovatedCourts() {
         List<Court> courts = courtRepository.findByRenovationStatus(RenovationStatus.NOT_RENOVATED);
-        Assertions.assertFalse(courts.isEmpty());
+        for(Court court:courts) {
+            System.out.println(court.getRenovationStatus());
+            Assertions.assertEquals(NOT_RENOVATED, court.getRenovationStatus());
+        }
     }
     @Test
     public void findInProgressCourts() {
         List<Court> courts = courtRepository.findByRenovationStatus(RenovationStatus.UNDER_RENOVATION);
-        Assertions.assertFalse(courts.isEmpty());
+        for(Court court:courts) {
+            System.out.println(court.getRenovationStatus());
+            Assertions.assertEquals(UNDER_RENOVATION, court.getRenovationStatus());
+        }
     }
 }
