@@ -2,34 +2,30 @@ package com.gt.basketballapp;
 
 import com.gt.basketballapp.model.Court;
 import com.gt.basketballapp.model.CourtType;
+import com.gt.basketballapp.model.RenovationStatus;
 import com.gt.basketballapp.repository.CourtRepository;
-import org.junit.Test;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.test.context.jdbc.Sql;
 import org.testcontainers.containers.MySQLContainer;
-import org.testcontainers.junit.jupiter.Container;
 import org.testcontainers.junit.jupiter.Testcontainers;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.util.List;
-
-import static org.junit.Assert.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 @Testcontainers
 @DataJpaTest
 @Sql(scripts={"create-data.sql"})
 @AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
-@SpringBootTest
 public class CourtRepositoryTestContainersTest {
+    /*
     @BeforeAll
     static void init() {
         new MySQLContainer("mysql")
@@ -37,7 +33,7 @@ public class CourtRepositoryTestContainersTest {
                 .withUsername("admin")
                 .withPassword("admin")
                 .start();
-    }
+    }*/
 
     @Autowired
     private CourtRepository courtRepository;
@@ -62,8 +58,28 @@ public class CourtRepositoryTestContainersTest {
     }
 
     @Test
-    public void findCourtsByCourtTypeTest() {
+    public void findAllIndoorCourts() {
         List<Court> courts = courtRepository.findByCourtType(CourtType.INDOOR);
+        Assertions.assertFalse(courts.isEmpty());
+    }
+    @Test
+    public void findAllOutdoorCourts() {
+        List<Court> courts = courtRepository.findByCourtType(CourtType.OUTDOOR);
+        Assertions.assertFalse(courts.isEmpty());
+    }
+    @Test
+    public void findRenovatedCourts() {
+        List<Court> courts = courtRepository.findByRenovationStatus(RenovationStatus.RENOVATED);
+        Assertions.assertFalse(courts.isEmpty());
+    }
+    @Test
+    public void findUnrenovatedCourts() {
+        List<Court> courts = courtRepository.findByRenovationStatus(RenovationStatus.NOT_RENOVATED);
+        Assertions.assertFalse(courts.isEmpty());
+    }
+    @Test
+    public void findInProgressCourts() {
+        List<Court> courts = courtRepository.findByRenovationStatus(RenovationStatus.UNDER_RENOVATION);
         Assertions.assertFalse(courts.isEmpty());
     }
 }

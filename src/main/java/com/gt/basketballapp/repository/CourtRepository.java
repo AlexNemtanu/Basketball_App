@@ -8,6 +8,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 public interface CourtRepository extends JpaRepository<Court, Long> {
@@ -24,5 +25,7 @@ public interface CourtRepository extends JpaRepository<Court, Long> {
 
     long countByCourtType(CourtType courtType);
 
-    int queryForObject(String query, Class<Integer> integerClass);
+    @Query("select c from Court c where c.courtType = ?1")
+    Optional<Court> findCourtByCourtType(CourtType courtType);
+
 }
