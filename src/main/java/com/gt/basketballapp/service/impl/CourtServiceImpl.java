@@ -20,7 +20,6 @@ public class CourtServiceImpl implements CourtService {
     }
 
     public CourtDto findById(Long id){
-
         Court court = courtRepository.findById(id).orElseThrow(RuntimeException::new);
         return courtMapper.toDto(court);
     }
