@@ -10,7 +10,6 @@ import com.gt.basketballapp.service.CourtService;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class CourtServiceImpl implements CourtService {
@@ -23,7 +22,7 @@ public class CourtServiceImpl implements CourtService {
     }
 
     public CourtDto findById(Long id){
-        Optional<Court> court = courtRepository.findById(id);
+        Court court = courtRepository.findById(id).orElseThrow();
         return courtMapper.toDto(court);
     }
 
@@ -34,7 +33,7 @@ public class CourtServiceImpl implements CourtService {
 
     @Override
     public CourtDto findByName(String name){
-        Optional<Court> court = courtRepository.findByName(name);
+       Court court = courtRepository.findByName(name).orElseThrow();
         return courtMapper.toDto(court);
     }
 
