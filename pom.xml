@@ -47,6 +47,10 @@
 			<artifactId>mapstruct</artifactId>
 			<version>1.5.5.Final</version>
 		</dependency>
+		<dependency>
+    		<groupId>org.flywaydb</groupId>
+    		<artifactId>flyway-mysql</artifactId>
+		</dependency>
 	</dependencies>
 
 	<build>
