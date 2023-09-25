@@ -41,7 +41,6 @@ public class CourtRepositoryTestContainersTest {
         List<Court> courts = courtRepository.findByCourtType(INDOOR);
         Assertions.assertFalse(courts.isEmpty());
         for(Court court:courts){
-            System.out.println(court.getCourtType());
             Assertions.assertEquals(INDOOR,court.getCourtType());
         }
     }
@@ -50,7 +49,6 @@ public class CourtRepositoryTestContainersTest {
         List<Court> courts = courtRepository.findByCourtType(OUTDOOR);
         Assertions.assertFalse(courts.isEmpty());
         for(Court court:courts) {
-            System.out.println(court.getCourtType());
             Assertions.assertEquals(OUTDOOR, court.getCourtType());
         }
     }
@@ -59,7 +57,6 @@ public class CourtRepositoryTestContainersTest {
         List<Court> courts = courtRepository.findByRenovationStatus(RENOVATED);
         Assertions.assertFalse(courts.isEmpty());
         for(Court court:courts) {
-            System.out.println(court.getRenovationStatus());
             Assertions.assertEquals(RENOVATED, court.getRenovationStatus());
         }
     }
@@ -68,7 +65,6 @@ public class CourtRepositoryTestContainersTest {
         List<Court> courts = courtRepository.findByRenovationStatus(RenovationStatus.NOT_RENOVATED);
         Assertions.assertFalse(courts.isEmpty());
         for(Court court:courts) {
-            System.out.println(court.getRenovationStatus());
             Assertions.assertEquals(NOT_RENOVATED, court.getRenovationStatus());
         }
     }
@@ -77,7 +73,6 @@ public class CourtRepositoryTestContainersTest {
         List<Court> courts = courtRepository.findByRenovationStatus(RenovationStatus.UNDER_RENOVATION);
         Assertions.assertFalse(courts.isEmpty());
         for(Court court:courts) {
-            System.out.println(court.getRenovationStatus());
             Assertions.assertEquals(UNDER_RENOVATION, court.getRenovationStatus());
         }
     }
