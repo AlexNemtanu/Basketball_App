@@ -7,6 +7,7 @@ import com.gt.basketballapp.model.RenovationStatus;
 import com.gt.basketballapp.model.dto.CourtDto;
 import com.gt.basketballapp.repository.CourtRepository;
 import com.gt.basketballapp.service.CourtService;
+import org.springframework.data.crossstore.ChangeSetPersister;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -22,7 +23,7 @@ public class CourtServiceImpl implements CourtService {
     }
 
     public CourtDto findById(Long id){
-        Court court = courtRepository.findById(id).orElseThrow();
+        Court court = courtRepository.findById(id).orElseThrow(RuntimeException::new);
         return courtMapper.toDto(court);
     }
 
@@ -33,8 +34,8 @@ public class CourtServiceImpl implements CourtService {
 
     @Override
     public CourtDto findByName(String name){
-       Court court = courtRepository.findByName(name).orElseThrow();
-        return courtMapper.toDto(court);
+            Court court = courtRepository.findByName(name).orElseThrow(RuntimeException::new);
+            return courtMapper.toDto(court);
     }
 
     @Override
