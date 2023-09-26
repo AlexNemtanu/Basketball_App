@@ -12,7 +12,7 @@ import java.util.Optional;
 
 @Repository
 public interface CourtRepository extends JpaRepository<Court, Long> {
-    Court findByName(String name);
+    Optional<Court> findByName(String name);
 
     @Query("select (count(c) > 0) from Court c where c.name = ?1")
     boolean existsByName(String name);
