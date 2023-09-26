@@ -19,16 +19,19 @@ public class CourtServiceImpl implements CourtService {
         this.courtRepository = courtRepository;
     }
 
+    @Override
     public void save(CourtDto courtDto){
         Court court = courtMapper.toEntity(courtDto);
         courtRepository.save(court);
     }
 
+    @Override
     public CourtDto findById(Long id){
         Court court = courtRepository.findById(id).orElseThrow(RuntimeException::new);
         return courtMapper.toDto(court);
     }
 
+    @Override
     public List<CourtDto> findAll(){
         List<Court> courts = courtRepository.findAll();
         return courtMapper.toDtoList(courts);

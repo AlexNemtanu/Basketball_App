@@ -10,6 +10,12 @@ import java.util.List;
 @Service
 public interface CourtService {
 
+    void save(CourtDto courtDto);
+
+    CourtDto findById(Long id);
+
+    List<CourtDto> findAll();
+
     CourtDto findByName(String name);
 
     boolean existsByName(String name);
