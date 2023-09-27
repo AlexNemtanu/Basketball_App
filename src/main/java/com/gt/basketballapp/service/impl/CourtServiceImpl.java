@@ -13,7 +13,9 @@ import java.util.List;
 public class CourtServiceImpl implements CourtService {
 
     private final CourtMapper courtMapper;
+
     private final CourtRepository courtRepository;
+
     public CourtServiceImpl(CourtMapper courtMapper, CourtRepository courtRepository) {
         this.courtMapper = courtMapper;
         this.courtRepository = courtRepository;

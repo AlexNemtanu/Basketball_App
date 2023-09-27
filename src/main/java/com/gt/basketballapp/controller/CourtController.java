@@ -1,14 +1,63 @@
 package com.gt.basketballapp.controller;
 
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import com.gt.basketballapp.model.CourtType;
+import com.gt.basketballapp.model.RenovationStatus;
+import com.gt.basketballapp.model.dto.CourtDto;
+import com.gt.basketballapp.service.CourtService;
+import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
-@RequestMapping("/api/v1/courts")
+@RequestMapping("api/v1/courts")
 public class CourtController {
-@GetMapping("/test")
-    public String test(){
+
+    private final CourtService courtService;
+
+@Autowired
+    public CourtController(CourtService courtService) {
+        this.courtService = courtService;
+
+}
+
+    @PostMapping
+    public ResponseEntity<CourtDto> createCourt(@RequestBody CourtDto courtDto){
+        courtService.save(courtDto);
+        return ResponseEntity.status(HttpStatus.CREATED).body(courtDto);
+    }
+    @GetMapping("/{id}")
+    public CourtDto getCourtById(@PathVariable Long id) {
+        return courtService.findById(id);
+    }
+
+    @GetMapping
+    public List<CourtDto> getAllCourts() {
+        return courtService.findAll();
+    }
+
+    @GetMapping("/name/{name}")
+    public CourtDto getCourtByName(@PathVariable String name) {
+        return courtService.findByName(name);
+    }
+
+    @GetMapping("/renovation-status/{renovationStatus}")
+    public List<CourtDto> getCourtsByRenovationStatus(@PathVariable RenovationStatus renovationStatus) {
+        return courtService.findByRenovationStatus(renovationStatus);
+    }
+
+    @GetMapping("/court-type/{courtType}")
+        public List<CourtDto> getCourtsByCourtType(@PathVariable CourtType courtType){
+        return courtService.findByCourtType(courtType);
+    }
+
+    @GetMapping("/test")
+    public String test() {
         return "api is working";
     }
 }
+
+
