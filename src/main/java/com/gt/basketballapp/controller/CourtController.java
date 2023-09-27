@@ -4,8 +4,7 @@ import com.gt.basketballapp.model.CourtType;
 import com.gt.basketballapp.model.RenovationStatus;
 import com.gt.basketballapp.model.dto.CourtDto;
 import com.gt.basketballapp.service.CourtService;
-import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -14,15 +13,10 @@ import java.util.List;
 
 @RestController
 @RequestMapping("api/v1/courts")
+@AllArgsConstructor
 public class CourtController {
 
     private final CourtService courtService;
-
-@Autowired
-    public CourtController(CourtService courtService) {
-        this.courtService = courtService;
-
-}
 
     @PostMapping
     public ResponseEntity<CourtDto> createCourt(@RequestBody CourtDto courtDto){

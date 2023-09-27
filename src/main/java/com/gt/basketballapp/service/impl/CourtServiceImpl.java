@@ -7,19 +7,17 @@ import com.gt.basketballapp.model.RenovationStatus;
 import com.gt.basketballapp.model.dto.CourtDto;
 import com.gt.basketballapp.repository.CourtRepository;
 import com.gt.basketballapp.service.CourtService;
+import lombok.AllArgsConstructor;
 
 import java.util.List;
 
+@AllArgsConstructor
 public class CourtServiceImpl implements CourtService {
 
     private final CourtMapper courtMapper;
 
     private final CourtRepository courtRepository;
 
-    public CourtServiceImpl(CourtMapper courtMapper, CourtRepository courtRepository) {
-        this.courtMapper = courtMapper;
-        this.courtRepository = courtRepository;
-    }
 
     @Override
     public void save(CourtDto courtDto){
