@@ -25,8 +25,4 @@ public interface CourtRepository extends JpaRepository<Court, Long> {
     long countByRenovationStatus(RenovationStatus renovationStatus);
 
     long countByCourtType(CourtType courtType);
-
-    @Query("select c from Court c where c.courtType = ?1")
-    Optional<Court> findCourtByCourtType(CourtType courtType);
-
 }
