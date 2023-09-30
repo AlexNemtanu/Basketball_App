@@ -16,11 +16,12 @@ import lombok.Setter;
 public class Court {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     private String name;
-    private Point coordinates;
+    @Embedded
+    private Coordinates coordinates;
     @Enumerated(EnumType.STRING)
     private RenovationStatus renovationStatus;
     @Enumerated(EnumType.STRING)
