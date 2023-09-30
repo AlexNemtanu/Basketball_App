@@ -8,7 +8,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
-import org.springframework.test.context.TestPropertySource;
+import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.jdbc.Sql;
 import org.testcontainers.junit.jupiter.Testcontainers;
 
@@ -22,26 +22,8 @@ import static com.gt.basketballapp.model.RenovationStatus.*;
 @DataJpaTest
 @Sql(scripts={"create-data.sql"})
 @AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
-@TestPropertySource("classpath:application-test.properties")
+@ActiveProfiles("repo-test-profile")
 public class CourtRepositoryTestContainersTest {
-    /*
-    static MySQLContainer<?> mySQLContainer=new MySQLContainer<>("mysql:latest");
-    @DynamicPropertySource
-    static void configureProperties(DynamicPropertyRegistry registry){
-        registry.add("spring.datasource.url",mySQLContainer::getJdbcUrl);
-        registry.add("spring.datasource.url.username",mySQLContainer::getUsername);
-        registry.add("spring.datasource.url.password",mySQLContainer::getPassword);
-    }
-    @BeforeAll
-    static void beforeAll(){
-        mySQLContainer.start();
-    }
-    @AfterAll
-    static void afterAll() {
-        mySQLContainer.stop();
-    }
-
-     */
     @Autowired
     private CourtRepository courtRepository;
     @Test

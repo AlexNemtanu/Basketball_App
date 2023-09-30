@@ -59,6 +59,10 @@
 			<version>1.18.3</version>
 			<scope>test</scope>
 		</dependency>
+		<dependency>
+			<groupId>org.testcontainers</groupId>
+			<artifactId>jdbc</artifactId>
+		</dependency>
 	</dependencies>
 
 	<build>
@@ -73,6 +77,9 @@
 							<artifactId>lombok</artifactId>
 						</exclude>
 					</excludes>
+					<profiles>
+						<profile>repo-test-profile</profile>
+					</profiles>
 				</configuration>
 			</plugin>
 		</plugins>
