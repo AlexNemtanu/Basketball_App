@@ -22,7 +22,7 @@ import static com.gt.basketballapp.model.RenovationStatus.*;
 @DataJpaTest
 @Sql(scripts={"create-data.sql"})
 @AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
-//@ActiveProfiles("repo-test-profile")
+@ActiveProfiles("repo-test-profile")
 public class CourtRepositoryTestContainersTest {
     @Autowired
     private CourtRepository courtRepository;
