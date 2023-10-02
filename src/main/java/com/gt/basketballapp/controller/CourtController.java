@@ -23,6 +23,7 @@ public class CourtController {
         courtService.save(courtDto);
         return ResponseEntity.status(HttpStatus.CREATED).body(courtDto);
     }
+
     @GetMapping("/{id}")
     public CourtDto getCourtById(@PathVariable Long id) {
         return courtService.findById(id);

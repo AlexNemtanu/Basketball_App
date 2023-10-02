@@ -4,8 +4,8 @@ CREATE TABLE IF NOT EXISTS court
 	name VARCHAR(255),
 	latitude DOUBLE(7,5),
 	longitude DOUBLE(7,5),
-	renovation_status ENUM('RENOVATED','UNDER_RENOVATION', 'NOT_RENOVATED'),
-	court_type ENUM('INDOOR', 'OUTDOOR')
+	renovation_status VARCHAR(255),
+	court_type VARCHAR(255)
 );
 
 INSERT INTO court(id, name, latitude, longitude, renovation_status, court_type) VALUES

@@ -3,11 +3,10 @@ package com.gt.basketballapp.service;
 import com.gt.basketballapp.model.CourtType;
 import com.gt.basketballapp.model.RenovationStatus;
 import com.gt.basketballapp.model.dto.CourtDto;
-import org.springframework.stereotype.Service;
 
 import java.util.List;
 
-@Service
+
 public interface CourtService {
 
     void save(CourtDto courtDto);

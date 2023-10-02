@@ -14,4 +14,5 @@ public interface CourtMapper {
 
     @BeanMapping(nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
     Court partialUpdate(CourtDto courtDto, @MappingTarget Court court);
+
 }
