@@ -1,5 +1,6 @@
 package com.gt.basketballapp.service.impl;
 
+import com.gt.basketballapp.exception.CourtNotFoundException;
 import com.gt.basketballapp.mapper.CourtMapper;
 import com.gt.basketballapp.model.Court;
 import com.gt.basketballapp.model.CourtType;
@@ -7,17 +8,17 @@ import com.gt.basketballapp.model.RenovationStatus;
 import com.gt.basketballapp.model.dto.CourtDto;
 import com.gt.basketballapp.repository.CourtRepository;
 import com.gt.basketballapp.service.CourtService;
+import lombok.AllArgsConstructor;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 
+@Service
+@AllArgsConstructor
 public class CourtServiceImpl implements CourtService {
 
     private final CourtMapper courtMapper;
     private final CourtRepository courtRepository;
-    public CourtServiceImpl(CourtMapper courtMapper, CourtRepository courtRepository) {
-        this.courtMapper = courtMapper;
-        this.courtRepository = courtRepository;
-    }
 
     @Override
     public void save(CourtDto courtDto){
@@ -27,7 +28,7 @@ public class CourtServiceImpl implements CourtService {
 
     @Override
     public CourtDto findById(Long id){
-        Court court = courtRepository.findById(id).orElseThrow(RuntimeException::new);
+        Court court = courtRepository.findById(id).orElseThrow(() -> new CourtNotFoundException("id: " + id));
         return courtMapper.toDto(court);
     }
 
@@ -39,8 +40,8 @@ public class CourtServiceImpl implements CourtService {
 
     @Override
     public CourtDto findByName(String name){
-            Court court = courtRepository.findByName(name).orElseThrow(RuntimeException::new);
-            return courtMapper.toDto(court);
+        Court court = courtRepository.findByName(name).orElseThrow(() -> new CourtNotFoundException("name: " + name));
+        return courtMapper.toDto(court);
     }
 
     @Override
