@@ -4,5 +4,4 @@ public enum RenovationStatus {
     RENOVATED,
     UNDER_RENOVATION,
     NOT_RENOVATED
-
 }
