@@ -9,7 +9,6 @@ import com.gt.basketballapp.model.dto.CourtDto;
 import com.gt.basketballapp.repository.CourtRepository;
 import com.gt.basketballapp.service.CourtService;
 import lombok.AllArgsConstructor;
-import org.springframework.stereotype.Service;
 
 import java.util.List;
 
