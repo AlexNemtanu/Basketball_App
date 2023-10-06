@@ -1,5 +1,6 @@
 package com.gt.basketballapp.service;
 
+import com.gt.basketballapp.model.Court;
 import com.gt.basketballapp.model.CourtType;
 import com.gt.basketballapp.model.RenovationStatus;
 import com.gt.basketballapp.model.dto.CourtDto;

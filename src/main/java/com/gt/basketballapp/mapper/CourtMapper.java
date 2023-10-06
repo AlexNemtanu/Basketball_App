@@ -3,8 +3,11 @@ package com.gt.basketballapp.mapper;
 import com.gt.basketballapp.model.Court;
 import com.gt.basketballapp.model.dto.CourtDto;
 import org.mapstruct.*;
+import org.springframework.stereotype.Component;
 import java.util.List;
+
 @Mapper(unmappedTargetPolicy = ReportingPolicy.IGNORE, componentModel = "spring")
+@Component
 public interface CourtMapper {
     Court toEntity(CourtDto courtDto);
 
