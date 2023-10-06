@@ -21,15 +21,10 @@ public class CourtServiceImpl implements CourtService {
     private final CourtRepository courtRepository;
 
 
-    //@Override
+    @Override
     public void save(CourtDto courtDto){
         Court court = courtMapper.toEntity(courtDto);
         courtRepository.save(court);
-    }
-
-    public Court save(Court court){
-        courtRepository.save(court);
-        return court;
     }
 
     @Override
