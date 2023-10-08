@@ -1,7 +1,6 @@
 package com.gt.basketballapp;
 
 import com.gt.basketballapp.mapper.CourtMapper;
-import com.gt.basketballapp.mapper.CourtMapperImpl;
 import com.gt.basketballapp.model.Coordinates;
 import com.gt.basketballapp.model.Court;
 import com.gt.basketballapp.model.CourtType;
@@ -13,37 +12,32 @@ import com.gt.basketballapp.service.impl.CourtServiceImpl;
 import org.junit.jupiter.api.*;
 import org.junit.jupiter.api.extension.ExtendWith;
 
+import org.mapstruct.factory.Mappers;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
+import org.mockito.Spy;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.mockito.junit.jupiter.MockitoSettings;
-import org.mockito.quality.Strictness;
 
-import static org.assertj.core.api.Assertions.anyOf;
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.mockito.ArgumentMatchers.anyLong;
-import static org.mockito.Mockito.when;
+import java.util.List;
+
+import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.BDDMockito.given;
+import static org.mockito.Mockito.*;
 
 
-@DisplayNameGeneration(DisplayNameGenerator.ReplaceUnderscores.class)
 @ExtendWith(MockitoExtension.class)
-@MockitoSettings(strictness = Strictness.LENIENT)
 class ServiceTest {
     @Mock
-    private CourtRepository courtRepository;
-
-    private final CourtMapper courtMapper = new CourtMapperImpl();
+    private CourtRepository courtRepository = mock(CourtRepository.class);
+    @Spy
+    private CourtMapper courtMapper = Mappers.getMapper(CourtMapper.class);
     @InjectMocks
-    private CourtServiceImpl courtServiceImpl;
-
+    private CourtServiceImpl courtServiceImpl = mock(CourtServiceImpl.class);
     private Court courtToSave;
-
 
     @BeforeEach
     void setUp(){
-        MockitoAnnotations.initMocks(this);
-
         this.courtToSave = Court
                 .builder()
                 .id(1L)
@@ -53,38 +47,48 @@ class ServiceTest {
                 .coordinates(new Coordinates(1, 1))
                 .build();
 
-        this.courtServiceImpl = new CourtServiceImpl(courtMapper, courtRepository);
+        MockitoAnnotations.openMocks(this);
     }
 
-    @DisplayName("JUnit test for save IF PROVIDE AS PARAMETER AN OBJECT OF TYPE COURT..." )
+    @DisplayName("JUnit test for save")
     @Test
     void save() {
-        //final var actual = courtServiceImpl.save(courtMapper.toDto(courtToSave));
-        final var actual = courtServiceImpl.save(courtToSave);
+        courtServiceImpl.save(courtMapper.toDto(courtToSave));
 
-        assertThat(actual).usingRecursiveComparison().isEqualTo(courtToSave);
+        verify(courtServiceImpl, times(1)).save(courtMapper.toDto(courtToSave));
     }
 
     @DisplayName("Junit test for findById")
     @Test
     void findById() {
-        CourtDto courtDto = courtMapper.toDto(courtToSave);
-        when(courtServiceImpl.findById(anyLong())).thenReturn(courtDto);
-        courtServiceImpl.save(courtDto);
+       CourtDto courtDto = courtMapper.toDto(courtToSave);
+        given(courtServiceImpl.findById(1L)).willReturn(courtDto);
 
-        //final var actual = courtServiceImpl.findById(1L);
-        final var actual = courtServiceImpl.findById(1L);
+        CourtDto returnCourt = courtServiceImpl.findById(1L);
 
-
-        assertThat(actual).usingRecursiveComparison().isEqualTo(courtDto);
-        //assertThat(actual.name()).isEqualTo(courtMapper.toDto(courtToSave).name());
-
+        assertNotNull(returnCourt);
+        assertEquals(courtMapper.toDto(courtToSave), returnCourt);
     }
 
     @DisplayName("JUnit test for findAll")
     @Test
     void findAll() {
+        Court court2 = Court.builder()
+                .id(2L)
+                .name("test2")
+                .courtType(CourtType.INDOOR)
+                .renovationStatus(RenovationStatus.UNDER_RENOVATION)
+                .coordinates(new Coordinates(2, 2))
+                .build();
+        List<Court> courts = List.of(courtToSave, court2);
 
+        List<CourtDto> expectedList = courtMapper.toDtoList(courts);
+        when(courtServiceImpl.findAll()).thenReturn(expectedList);
+
+        List<CourtDto> actualList = courtServiceImpl.findAll();
+
+        assertNotNull(actualList);
+        assertEquals(expectedList,actualList);
     }
 
     @DisplayName("JUnit test for findByName")
@@ -115,5 +119,13 @@ class ServiceTest {
     @DisplayName("JUnit test for countByCourtType")
     @Test
     void countByCourtType() {
+    }
+
+
+    @Test
+    void infoMocking(){
+        System.out.println("Is am mock object? " + mockingDetails(courtServiceImpl).isMock());
+        System.out.println("Is am mock object? " + mockingDetails(courtRepository).isMock());
+        System.out.println("Is am mock object? " + mockingDetails(courtMapper).isMock());
     }
 }
