@@ -13,8 +13,8 @@ import java.util.List;
 
 @AllArgsConstructor
 @RestController
-@RequestMapping("/api/courts")
-public class Controller {
+@RequestMapping("/api/v1/courts")
+public class CourtController {
 
     private final CourtService courtService;
 
@@ -36,7 +36,7 @@ public class Controller {
         return ResponseEntity.ok(courtDto);
     }
 
-    @GetMapping("/by-name")
+    @GetMapping("/name")
     public ResponseEntity<CourtDto> findByName(@RequestParam("name") String name) {
         return ResponseEntity.ok(courtService.findByName(name));
     }
