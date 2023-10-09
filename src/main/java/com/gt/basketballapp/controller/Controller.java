@@ -1,19 +1,14 @@
 package com.gt.basketballapp.controller;
 
-import com.gt.basketballapp.model.Court;
 import com.gt.basketballapp.model.CourtType;
 import com.gt.basketballapp.model.RenovationStatus;
 import com.gt.basketballapp.model.dto.CourtDto;
+import com.gt.basketballapp.service.CourtService;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import com.gt.basketballapp.service.CourtService;
-import org.springframework.web.util.UriComponentsBuilder;
 
-import java.io.UnsupportedEncodingException;
-import java.net.URLDecoder;
-import java.nio.charset.StandardCharsets;
 import java.util.List;
 
 @AllArgsConstructor
