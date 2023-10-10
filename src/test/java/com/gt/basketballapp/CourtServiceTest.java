@@ -25,7 +25,7 @@ import static org.mockito.Mockito.*;
 
 
 @ExtendWith(MockitoExtension.class)
-class ServiceTest {
+class CourtServiceTest {
     @Mock
     private CourtRepository courtRepository;
     @Mock
@@ -52,7 +52,7 @@ class ServiceTest {
 
     @BeforeEach
     void setUp(){
-       court1 = Court.builder()
+        court1 = Court.builder()
                 .id(2L)
                 .name("test1")
                 .courtType(CourtType.INDOOR)
@@ -60,7 +60,7 @@ class ServiceTest {
                 .coordinates(new Coordinates(2, 2))
                 .build();
 
-       court2 = Court.builder()
+        court2 = Court.builder()
                 .id(3L)
                 .name("test2")
                 .courtType(CourtType.OUTDOOR)
@@ -180,6 +180,20 @@ class ServiceTest {
         Long actual = courtServiceImpl.countByCourtType(CourtType.INDOOR);
 
         assertEquals(1, actual);
+    }
+
+    @DisplayName("JUnit test for findByRenovationStatusAndCourtType")
+    @Test
+    void findByRenovationStatusAndCourtType(){
+        when(courtMapper.toDtoList(List.of(court1, court2))).thenReturn(List.of(courtDto1, courtDto2));
+        when(courtRepository.findByRenovationStatusAndCourtType(RenovationStatus.RENOVATED, CourtType.INDOOR)).thenReturn(List.of(court1, court2));
+
+        List<CourtDto> actual = courtServiceImpl.findByRenovationStatusAndCourtType(RenovationStatus.RENOVATED, CourtType.INDOOR);
+
+        assertNotNull(actual);
+        assertEquals(2, actual.size());
+        assertEquals(courtDto1, actual.get(0));
+        assertEquals(courtDto2, actual.get(1));
     }
 
 }
