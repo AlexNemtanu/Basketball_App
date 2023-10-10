@@ -8,78 +8,94 @@ import com.gt.basketballapp.model.RenovationStatus;
 import com.gt.basketballapp.model.dto.CourtDto;
 import com.gt.basketballapp.repository.CourtRepository;
 import com.gt.basketballapp.service.impl.CourtServiceImpl;
-
-import org.junit.jupiter.api.*;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-
-import org.mapstruct.factory.Mappers;
+import org.mockito.ArgumentCaptor;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.MockitoAnnotations;
-import org.mockito.Spy;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.util.List;
+import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.BDDMockito.given;
-import static org.mockito.BDDMockito.willDoNothing;
 import static org.mockito.Mockito.*;
 
 
 @ExtendWith(MockitoExtension.class)
 class ServiceTest {
     @Mock
-    private CourtRepository courtRepository = mock(CourtRepository.class);
-    @Spy
-    private CourtMapper courtMapper = Mappers.getMapper(CourtMapper.class);
+    private CourtRepository courtRepository;
+    @Mock
+    private CourtMapper courtMapper;
     @InjectMocks
-    private CourtServiceImpl courtServiceImpl = mock(CourtServiceImpl.class);
+    private CourtServiceImpl courtServiceImpl;
     private Court court1;
     private Court court2;
+
+    private final CourtDto courtDto1 = new CourtDto(
+            "test1",
+            new Coordinates(2,2),
+            RenovationStatus.RENOVATED,
+            CourtType.INDOOR
+    );
+
+    private final CourtDto courtDto2 = new CourtDto(
+            "test2",
+            new Coordinates(-3,-3),
+            RenovationStatus.NOT_RENOVATED,
+            CourtType.OUTDOOR
+    );
 
 
     @BeforeEach
     void setUp(){
-        this.court1 = Court.builder()
+       court1 = Court.builder()
                 .id(2L)
                 .name("test1")
                 .courtType(CourtType.INDOOR)
                 .renovationStatus(RenovationStatus.RENOVATED)
                 .coordinates(new Coordinates(2, 2))
                 .build();
-        this.court2 = Court.builder()
+
+       court2 = Court.builder()
                 .id(3L)
                 .name("test2")
-                .courtType(CourtType.INDOOR)
-                .renovationStatus(RenovationStatus.RENOVATED)
-                .coordinates(new Coordinates(2, 2))
+                .courtType(CourtType.OUTDOOR)
+                .renovationStatus(RenovationStatus.NOT_RENOVATED)
+                .coordinates(new Coordinates(-3, -3))
                 .build();
-
-        MockitoAnnotations.openMocks(this);
     }
 
     @DisplayName("JUnit test for save")
     @Test
     void save() {
-        CourtDto courtDtoToSave = courtMapper.toDto(court1);
-        willDoNothing().given(courtServiceImpl).save(courtDtoToSave);
+        when(courtMapper.toEntity(courtDto1)).thenReturn(court1);
 
-        courtServiceImpl.save(courtDtoToSave);
+        courtServiceImpl.save(courtDto1);
 
-        verify(courtServiceImpl, times(1)).save(courtDtoToSave);
+        verify(courtRepository).save(court1);
+
+        ArgumentCaptor<Court> courtCaptor = ArgumentCaptor.forClass(Court.class);
+        verify(courtRepository).save(courtCaptor.capture());
+
+        Court savedCourt = courtCaptor.getValue();
+        assertEquals(court1, savedCourt);
     }
 
     @DisplayName("Junit test for findById")
     @Test
     void findById() {
-        CourtDto courtDto = courtMapper.toDto(court1);
-        given(courtServiceImpl.findById(court1.getId())).willReturn(courtDto);
+        when(courtMapper.toDto(court1)).thenReturn(courtDto1);
+        when(courtRepository.findById(2L)).thenReturn(Optional.of(court1));
 
-        CourtDto returnCourt = courtServiceImpl.findById(court1.getId());
+        CourtDto actual = courtServiceImpl.findById(court1.getId());
 
-        assertNotNull(returnCourt);
-        assertEquals(courtDto, returnCourt);
+        assertNotNull(actual);
+        assertEquals(courtDto1, actual);
     }
 
     @DisplayName("JUnit test for findAll")
