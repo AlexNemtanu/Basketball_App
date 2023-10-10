@@ -20,45 +20,50 @@ import static com.gt.basketballapp.model.RenovationStatus.*;
 
 @Testcontainers
 @DataJpaTest
-@Sql(scripts={"/db/create-data.sql"})
+@Sql(scripts={"create-data.sql"})
 @AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
 @ActiveProfiles("repo-test")
-public class CourtRepositoryTest {
+public class CourtRepositoryTestContainersTest {
     @Autowired
     private CourtRepository courtRepository;
     @Test
-    void findAllIndoorCourts() {
+    public void findAllIndoorCourts() {
         List<Court> courts = courtRepository.findByCourtType(INDOOR);
         Assertions.assertFalse(courts.isEmpty());
-        for(Court court:courts)
+        for(Court court:courts){
             Assertions.assertEquals(INDOOR,court.getCourtType());
+        }
     }
     @Test
-    void findAllOutdoorCourts() {
+    public void findAllOutdoorCourts() {
         List<Court> courts = courtRepository.findByCourtType(OUTDOOR);
         Assertions.assertFalse(courts.isEmpty());
-        for(Court court:courts)
+        for(Court court:courts) {
             Assertions.assertEquals(OUTDOOR, court.getCourtType());
+        }
     }
     @Test
-    void findRenovatedCourts() {
+    public void findRenovatedCourts() {
         List<Court> courts = courtRepository.findByRenovationStatus(RENOVATED);
         Assertions.assertFalse(courts.isEmpty());
-        for(Court court:courts)
+        for(Court court:courts) {
             Assertions.assertEquals(RENOVATED, court.getRenovationStatus());
+        }
     }
     @Test
-    void findNotRenovatedCourts() {
+    public void findNotRenovatedCourts() {
         List<Court> courts = courtRepository.findByRenovationStatus(RenovationStatus.NOT_RENOVATED);
         Assertions.assertFalse(courts.isEmpty());
-        for(Court court:courts)
+        for(Court court:courts) {
             Assertions.assertEquals(NOT_RENOVATED, court.getRenovationStatus());
+        }
     }
     @Test
-    void findUnderRenovationCourts() {
+    public void findInProgressCourts() {
         List<Court> courts = courtRepository.findByRenovationStatus(RenovationStatus.UNDER_RENOVATION);
         Assertions.assertFalse(courts.isEmpty());
-        for(Court court:courts)
+        for(Court court:courts) {
             Assertions.assertEquals(UNDER_RENOVATION, court.getRenovationStatus());
+        }
     }
 }
