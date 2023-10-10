@@ -21,7 +21,6 @@ import java.util.List;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.*;
 
 
@@ -101,90 +100,86 @@ class ServiceTest {
     @DisplayName("JUnit test for findAll")
     @Test
     void findAll() {
-        List<Court> courts = List.of(court1, court2);
-        List<CourtDto> expectedList = courtMapper.toDtoList(courts);
-        given(courtServiceImpl.findAll()).willReturn(expectedList);
+        when(courtMapper.toDtoList(List.of(court1, court2))).thenReturn(List.of(courtDto1, courtDto2));
+        when(courtRepository.findAll()).thenReturn(List.of(court1, court2));
 
-        List<CourtDto> returnList = courtServiceImpl.findAll();
+        List<CourtDto> actual = courtServiceImpl.findAll();
 
-        assertNotNull(returnList);
-        assertEquals(expectedList,returnList);
-        assertEquals(expectedList.size(), returnList.size());
+        assertNotNull(actual);
+        assertEquals(2, actual.size());
+        assertEquals(courtDto1, actual.get(0));
+        assertEquals(courtDto2, actual.get(1));
     }
 
     @DisplayName("JUnit test for findByName")
     @Test
     void findByName() {
-        CourtDto expectedCourt = courtMapper.toDto(court1);
-        given(courtServiceImpl.findByName(court1.getName())).willReturn(expectedCourt);
+        when(courtMapper.toDto(court1)).thenReturn(courtDto1);
+        when(courtRepository.findByName("test1")).thenReturn(Optional.of(court1));
 
-        CourtDto returnCourt = courtServiceImpl.findByName(court1.getName());
+        CourtDto actual = courtServiceImpl.findByName(court1.getName());
 
-        assertNotNull(returnCourt);
-        assertEquals(expectedCourt.name(), returnCourt.name());
-        assertEquals("test1", returnCourt.name());
+        assertNotNull(actual);
+        assertEquals(courtDto1, actual);
+        assertEquals("test1", actual.name());
     }
 
     @DisplayName("JUnit test for existsByName")
     @Test
     void existsByName() {
-        CourtDto courtDtoToSave = courtMapper.toDto(court1);
-        when(courtServiceImpl.existsByName(courtDtoToSave.name())).thenReturn(true);
+        when(courtRepository.existsByName("test1")).thenReturn(true);
 
-        assertTrue(courtServiceImpl.existsByName(court1.getName()));
+        boolean actual = courtServiceImpl.existsByName("test1");
+
+        assertTrue(actual);
     }
 
     @DisplayName("JUnit test for findByRenovationStatus")
     @Test
     void findByRenovationStatus() {
-        List<Court> courts = List.of(court1, court2);
-        List<CourtDto> expectedList = courtMapper.toDtoList(courts);
-        when(courtServiceImpl.findByRenovationStatus(any(RenovationStatus.class))).thenReturn(expectedList);
+        when(courtMapper.toDtoList(List.of(court1, court2))).thenReturn(List.of(courtDto1, courtDto2));
+        when(courtRepository.findByRenovationStatus(RenovationStatus.RENOVATED)).thenReturn(List.of(court1, court2));
 
-        List<CourtDto> returnList = courtServiceImpl.findByRenovationStatus(RenovationStatus.RENOVATED);
+        List<CourtDto> actual = courtServiceImpl.findByRenovationStatus(RenovationStatus.RENOVATED);
 
-        assertNotNull(returnList);
-        assertEquals(expectedList,returnList);
-        assertEquals(expectedList.size(), returnList.size());
-        assertEquals(2, returnList.size());
-        assertEquals(RenovationStatus.RENOVATED, returnList.get(0).renovationStatus());
-
+        assertNotNull(actual);
+        assertEquals(2, actual.size());
+        assertEquals(courtDto1, actual.get(0));
+        assertEquals(courtDto2, actual.get(1));
     }
 
     @DisplayName("JUnit test for findByCourtType")
     @Test
     void findByCourtType() {
-        List<Court> courts = List.of(court1, court2);
-        List<CourtDto> expectedList = courtMapper.toDtoList(courts);
-        when(courtServiceImpl.findByCourtType(CourtType.INDOOR)).thenReturn(expectedList);
+        when(courtMapper.toDtoList(List.of(court1, court2))).thenReturn(List.of(courtDto1, courtDto2));
+        when(courtRepository.findByCourtType(CourtType.INDOOR)).thenReturn(List.of(court1, court2));
 
-        List<CourtDto> returnList = courtServiceImpl.findByCourtType(CourtType.INDOOR);
+        List<CourtDto> actual = courtServiceImpl.findByCourtType(CourtType.INDOOR);
 
-        assertNotNull(returnList);
-        assertEquals(expectedList,returnList);
-        assertEquals(expectedList.size(), returnList.size());
-        assertEquals(2, returnList.size());
-        assertEquals(CourtType.INDOOR, returnList.get(0).courtType());
+        assertNotNull(actual);
+        assertEquals(2, actual.size());
+        assertEquals(courtDto1, actual.get(0));
+        assertEquals(courtDto2, actual.get(1));
     }
 
     @DisplayName("JUnit test for countByRenovationStatus")
     @Test
     void countByRenovationStatus() {
-        when(courtServiceImpl.countByRenovationStatus(RenovationStatus.RENOVATED)).thenReturn(2L);
+        when(courtRepository.countByRenovationStatus(RenovationStatus.RENOVATED)).thenReturn(1L);
 
         Long actual = courtServiceImpl.countByRenovationStatus(RenovationStatus.RENOVATED);
 
-        assertEquals(2, actual);
+        assertEquals(1, actual);
     }
 
     @DisplayName("JUnit test for countByCourtType")
     @Test
     void countByCourtType() {
-        when(courtServiceImpl.countByCourtType(CourtType.INDOOR)).thenReturn(2L);
+        when(courtRepository.countByCourtType(CourtType.INDOOR)).thenReturn(1L);
 
         Long actual = courtServiceImpl.countByCourtType(CourtType.INDOOR);
 
-        assertEquals(2, actual);
+        assertEquals(1, actual);
     }
 
 }
