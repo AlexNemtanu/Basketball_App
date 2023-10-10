@@ -65,4 +65,12 @@ public class CourtController {
     public ResponseEntity<Boolean> existsByName(@RequestParam("name") String name) {
         return ResponseEntity.ok(courtService.existsByName(name));
     }
+
+    @GetMapping("/search")
+    public ResponseEntity<List<CourtDto>> findByRenovationStatusAndCourtType(
+            @RequestParam(name = "courtType", required = false) CourtType courtType,
+            @RequestParam(name = "renovationStatus", required = false) RenovationStatus renovationStatus) {
+
+        return ResponseEntity.ok(courtService.findByRenovationStatusAndCourtType(renovationStatus, courtType));
+    }
 }
