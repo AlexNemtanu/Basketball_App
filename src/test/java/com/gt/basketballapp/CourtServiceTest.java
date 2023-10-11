@@ -85,7 +85,7 @@ class CourtServiceTest {
         assertEquals(court1, savedCourt);
     }
 
-    @DisplayName("Junit test for findById")
+    @DisplayName("JUnit test for findById")
     @Test
     void findById() {
         when(courtMapper.toDto(court1)).thenReturn(courtDto1);
@@ -182,13 +182,55 @@ class CourtServiceTest {
         assertEquals(1, actual);
     }
 
-    @DisplayName("JUnit test for findByRenovationStatusAndCourtType")
+    @DisplayName("JUnit test for findByRenovationStatusAndCourtType all provided arguments")
     @Test
     void findByRenovationStatusAndCourtType(){
         when(courtMapper.toDtoList(List.of(court1, court2))).thenReturn(List.of(courtDto1, courtDto2));
         when(courtRepository.findByRenovationStatusAndCourtType(RenovationStatus.RENOVATED, CourtType.INDOOR)).thenReturn(List.of(court1, court2));
 
         List<CourtDto> actual = courtServiceImpl.findByRenovationStatusAndCourtType(RenovationStatus.RENOVATED, CourtType.INDOOR);
+
+        assertNotNull(actual);
+        assertEquals(2, actual.size());
+        assertEquals(courtDto1, actual.get(0));
+        assertEquals(courtDto2, actual.get(1));
+    }
+
+    @DisplayName("JUnit test for findByRenovationStatusAndCourtType only renovationStatus provided")
+    @Test
+    void findByRenovationStatusAndCourtTypeOnlyRenovationStatus(){
+        when(courtMapper.toDtoList(List.of(court1))).thenReturn(List.of(courtDto1));
+        when(courtRepository.findByRenovationStatus(RenovationStatus.RENOVATED)).thenReturn(List.of(court1));
+
+        List<CourtDto> actual = courtServiceImpl.findByRenovationStatusAndCourtType(RenovationStatus.RENOVATED, null);
+
+        assertNotNull(actual);
+        assertEquals(1, actual.size());
+        assertEquals(courtDto1, actual.get(0));
+        assertEquals(courtDto1.renovationStatus(), actual.get(0).renovationStatus());
+    }
+
+    @DisplayName("JUnit test for findByRenovationStatusAndCourtType only courtType provided")
+    @Test
+    void findByRenovationStatusAndCourtTypeOnlyCourtType(){
+        when(courtMapper.toDtoList(List.of(court1))).thenReturn(List.of(courtDto1));
+        when(courtRepository.findByCourtType(CourtType.INDOOR)).thenReturn(List.of(court1));
+
+        List<CourtDto> actual = courtServiceImpl.findByRenovationStatusAndCourtType(null, CourtType.INDOOR);
+
+        assertNotNull(actual);
+        assertEquals(1, actual.size());
+        assertEquals(courtDto1, actual.get(0));
+        assertEquals(courtDto1.courtType(), actual.get(0).courtType());
+    }
+
+    @DisplayName("JUnit test for findByRenovationStatusAndCourtType no arguments provided")
+    @Test
+    void findByRenovationStatusAndCourtTypeNoArguments(){
+        when(courtMapper.toDtoList(List.of(court1, court2))).thenReturn(List.of(courtDto1, courtDto2));
+        when(courtRepository.findAll()).thenReturn(List.of(court1, court2));
+
+        List<CourtDto> actual = courtServiceImpl.findByRenovationStatusAndCourtType(null, null);
 
         assertNotNull(actual);
         assertEquals(2, actual.size());
