@@ -27,4 +27,5 @@ public interface CourtService {
 
     long countByCourtType(CourtType courtType);
 
+    List<CourtDto> findByRenovationStatusAndCourtType(RenovationStatus renovationStatus, CourtType courtType);
 }

@@ -72,4 +72,21 @@ public class CourtServiceImpl implements CourtService {
     public long countByCourtType(CourtType courtType) {
         return courtRepository.countByCourtType(courtType);
     }
+
+    @Override
+    public List<CourtDto> findByRenovationStatusAndCourtType(RenovationStatus renovationStatus, CourtType courtType) {
+        List<Court> matchingCourts;
+
+        if (renovationStatus != null && courtType != null) {
+            matchingCourts = courtRepository.findByRenovationStatusAndCourtType(renovationStatus, courtType);
+        } else if (renovationStatus != null) {
+            matchingCourts = courtRepository.findByRenovationStatus(renovationStatus);
+        } else if (courtType != null) {
+            matchingCourts = courtRepository.findByCourtType(courtType);
+        } else {
+            matchingCourts = courtRepository.findAll();
+        }
+
+        return courtMapper.toDtoList(matchingCourts);
+    }
 }
