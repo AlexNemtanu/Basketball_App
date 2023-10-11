@@ -6,26 +6,18 @@ import com.gt.basketballapp.repository.CourtRepository;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.context.annotation.ComponentScan;
-import org.springframework.test.context.ActiveProfiles;
 import org.springframework.context.annotation.FilterType;
 import org.springframework.data.repository.support.Repositories;
-import org.springframework.test.context.jdbc.Sql;
-import org.testcontainers.junit.jupiter.Testcontainers;
 
 import java.util.List;
 
 import static com.gt.basketballapp.model.CourtType.*;
 import static com.gt.basketballapp.model.RenovationStatus.*;
 
-@Testcontainers
-@AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
 @DataJpaTest(includeFilters = @ComponentScan.Filter(type = FilterType.ANNOTATION, classes = Repositories.class))
-@Sql("/createData.sql")
-@ActiveProfiles("repo-test")
-public class CourtRepositoryTest {
+public class CourtRepositoryTest extends AbstractMySQLTestContainerIT{
     @Autowired
     private CourtRepository courtRepository;
     @Test
