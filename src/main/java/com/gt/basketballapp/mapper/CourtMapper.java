@@ -7,7 +7,6 @@ import java.util.List;
 @Mapper(unmappedTargetPolicy = ReportingPolicy.IGNORE, componentModel = "spring")
 public interface CourtMapper {
     Court toEntity(CourtDto courtDto);
-
     CourtDto toDto(Court court);
 
     List<CourtDto> toDtoList(Iterable<Court> court);
