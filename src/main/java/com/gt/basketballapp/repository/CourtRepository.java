@@ -26,4 +26,5 @@ public interface CourtRepository extends JpaRepository<Court, Long> {
 
     long countByCourtType(CourtType courtType);
 
+    List<Court> findByRenovationStatusAndCourtType(RenovationStatus renovationStatus, CourtType courtType);
 }

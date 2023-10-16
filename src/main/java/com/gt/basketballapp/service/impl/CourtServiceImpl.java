@@ -1,5 +1,6 @@
 package com.gt.basketballapp.service.impl;
 
+import com.gt.basketballapp.exception.CourtNotFoundException;
 import com.gt.basketballapp.mapper.CourtMapper;
 import com.gt.basketballapp.model.Court;
 import com.gt.basketballapp.model.CourtType;
@@ -29,7 +30,7 @@ public class CourtServiceImpl implements CourtService {
 
     @Override
     public CourtDto findById(Long id){
-        Court court = courtRepository.findById(id).orElseThrow(RuntimeException::new);
+        Court court = courtRepository.findById(id).orElseThrow(() -> new CourtNotFoundException("id: " + id));
         return courtMapper.toDto(court);
     }
 
@@ -41,8 +42,8 @@ public class CourtServiceImpl implements CourtService {
 
     @Override
     public CourtDto findByName(String name){
-            Court court = courtRepository.findByName(name).orElseThrow(RuntimeException::new);
-            return courtMapper.toDto(court);
+        Court court = courtRepository.findByName(name).orElseThrow(() -> new CourtNotFoundException("name: " + name));
+        return courtMapper.toDto(court);
     }
 
     @Override
@@ -70,5 +71,22 @@ public class CourtServiceImpl implements CourtService {
     @Override
     public long countByCourtType(CourtType courtType) {
         return courtRepository.countByCourtType(courtType);
+    }
+
+    @Override
+    public List<CourtDto> findByRenovationStatusAndCourtType(RenovationStatus renovationStatus, CourtType courtType) {
+        List<Court> matchingCourts;
+
+        if (renovationStatus != null && courtType != null) {
+            matchingCourts = courtRepository.findByRenovationStatusAndCourtType(renovationStatus, courtType);
+        } else if (renovationStatus != null) {
+            matchingCourts = courtRepository.findByRenovationStatus(renovationStatus);
+        } else if (courtType != null) {
+            matchingCourts = courtRepository.findByCourtType(courtType);
+        } else {
+            matchingCourts = courtRepository.findAll();
+        }
+
+        return courtMapper.toDtoList(matchingCourts);
     }
 }
