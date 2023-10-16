@@ -6,7 +6,6 @@ import com.gt.basketballapp.model.dto.CourtDto;
 
 import java.util.List;
 
-
 public interface CourtService {
 
     void save(CourtDto courtDto);
