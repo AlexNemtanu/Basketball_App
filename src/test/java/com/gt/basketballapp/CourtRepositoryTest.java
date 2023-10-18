@@ -54,7 +54,7 @@ public class CourtRepositoryTest{
             Assertions.assertEquals(NOT_RENOVATED, court.getRenovationStatus());
     }
     @Test
-    void findInProgressCourts() {
+    void findUnderRenovationCourts() {
         List<Court> courts = courtRepository.findByRenovationStatus(RenovationStatus.UNDER_RENOVATION);
         Assertions.assertFalse(courts.isEmpty());
         for(Court court:courts)
