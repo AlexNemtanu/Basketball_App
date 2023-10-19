@@ -1,28 +1,25 @@
-package com.gt.basketballapp;
+package com.gt.basketballapp.repository;
 
 import com.gt.basketballapp.model.Court;
 import com.gt.basketballapp.model.RenovationStatus;
-import com.gt.basketballapp.repository.CourtRepository;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
-import org.springframework.context.annotation.ComponentScan;
-import org.springframework.context.annotation.FilterType;
-import org.springframework.data.repository.support.Repositories;
 import org.springframework.test.context.ActiveProfiles;
-import org.testcontainers.junit.jupiter.Testcontainers;
 
 import java.util.List;
 
-import static com.gt.basketballapp.model.CourtType.*;
-import static com.gt.basketballapp.model.RenovationStatus.*;
-@Testcontainers
+import static com.gt.basketballapp.model.CourtType.INDOOR;
+import static com.gt.basketballapp.model.CourtType.OUTDOOR;
+import static com.gt.basketballapp.model.RenovationStatus.NOT_RENOVATED;
+import static com.gt.basketballapp.model.RenovationStatus.RENOVATED;
+
 @ActiveProfiles("repo-test")
 @AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
-@DataJpaTest(includeFilters = @ComponentScan.Filter(type = FilterType.ANNOTATION, classes = Repositories.class))
-public class CourtRepositoryTest{
+@DataJpaTest
+class CourtRepositoryTest{
     @Autowired
     private CourtRepository courtRepository;
     @Test
