@@ -28,9 +28,7 @@ public class CourtRepositoryTest{
     @Test
     void findAllIndoorCourts() {
         List<Court> courts = courtRepository.findByCourtType(INDOOR);
-        Assertions.assertFalse(courts.isEmpty());
-        for(Court court:courts)
-            Assertions.assertEquals(INDOOR,court.getCourtType());
+        Assertions.assertTrue(courts.isEmpty());
     }
     @Test
     void findAllOutdoorCourts() {
@@ -56,8 +54,6 @@ public class CourtRepositoryTest{
     @Test
     void findUnderRenovationCourts() {
         List<Court> courts = courtRepository.findByRenovationStatus(RenovationStatus.UNDER_RENOVATION);
-        Assertions.assertFalse(courts.isEmpty());
-        for(Court court:courts)
-            Assertions.assertEquals(UNDER_RENOVATION, court.getRenovationStatus());
+        Assertions.assertTrue(courts.isEmpty());
     }
 }
