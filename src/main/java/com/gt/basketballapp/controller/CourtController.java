@@ -20,6 +20,7 @@ import java.util.List;
 @AllArgsConstructor
 @RestController
 @RequestMapping("/api/v1/courts")
+@CrossOrigin(origins = "http://localhost:3000")
 @Tag(name = "Basketball App", description = "Endpoints for managing courts")
 public class CourtController {
 
