@@ -5,6 +5,7 @@ import com.gt.basketballapp.model.CourtType;
 import com.gt.basketballapp.model.RenovationStatus;
 import com.gt.basketballapp.model.dto.CourtDto;
 import com.gt.basketballapp.service.CourtService;
+import io.github.resilience4j.ratelimiter.annotation.RateLimiter;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -197,6 +198,8 @@ public class CourtController {
     }
 
     @GetMapping("/search")
+    @CrossOrigin(origins = "*")
+    @RateLimiter(name = "searchRateLimiter")
     @Operation(summary = "Search courts by renovation status and court type", description = "Search courts by renovation status and court type", tags = {"Basketball App"},
             responses = {
             @ApiResponse(description = "Success", responseCode = "200",
@@ -209,6 +212,7 @@ public class CourtController {
             @ApiResponse(description = "Bad Request", responseCode = "400", content = @Content),
             @ApiResponse(description = "Unauthorized", responseCode = "401", content = @Content),
             @ApiResponse(description = "Not found", responseCode = "404", content = @Content),
+            @ApiResponse(description = "Too many requests", responseCode = "429", content = @Content),
             @ApiResponse(description = "Internal Server Error", responseCode = "500", content = @Content),
     })
     public ResponseEntity<List<CourtDto>> findByRenovationStatusAndCourtType(
