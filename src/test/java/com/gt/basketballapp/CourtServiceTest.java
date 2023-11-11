@@ -39,14 +39,14 @@ class CourtServiceTest {
             "test1",
             new Coordinates(2,2),
             RenovationStatus.RENOVATED,
-            CourtType.INDOOR
+            CourtType.INDOOR.label
     );
 
     private final CourtDto courtDto2 = new CourtDto(
             "test2",
             new Coordinates(-3,-3),
             RenovationStatus.NOT_RENOVATED,
-            CourtType.OUTDOOR
+            CourtType.OUTDOOR.label
     );
 
 
